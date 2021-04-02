@@ -1,0 +1,89 @@
+ScriptName AlignyoneoXtal
+# 210202 K. Yonekura, Use yolov5 to find xtals in defocused diffraction mode
+
+echo ------------------------ AlignyoneoXtal -----------------------------
+
+progdir = C:\ProgramData\yoneoLocr-yolov5
+watchinfile = InputImage.txt 
+
+ReportNavItem
+alignxtal = 1
+
+beamdia = 5.1 # with 100 um CL Aperture and Alpha = 5
+ 
+max_image_shift = 0.3  # in um
+LowLimitCount = 0
+
+echo Locating xtal by yoneoLocr and stage shifts
+iflag = 0
+ResetImageShift
+
+Loop 1 i
+    T
+    ReportMeanCounts
+    MeanCountsF =  $reportedValue1
+    if (  $MeanCountsF < $LowLimitCount )
+        echo Counts too low
+        break
+    endif
+    if $i == 1
+       ImageProperties
+       xdim1 = $reportedValue1
+       ydim1 = $reportedValue2
+       binning1 = $reportedValue3
+       # repValue 4 exposure time
+       # pixsize1 = $reportedValue5
+    endif
+    SaveToOtherFile A JPG JPG $progdir\Xtal_$navLabel_$i.jpg
+    RunInShell echo Xtal_$navLabel_$i.jpg $binning1 > $progdir\WatchXtal\$watchinfile
+    GxGyProb = {0., 0., 0., 0}
+    Loop 10 j
+        OpenTextFile 1 T 0 $progdir\Xtal_$navLabel_$i.log
+        if $reportedValue1 == 1
+              ReadTextFile GxGyProb $progdir\Xtal_$navLabel_$i.log
+              # echo $GxGyProb[1] $GxGyProb[2]  $GxGyProb[3]
+              CloseTextFile 1
+	      RemoveFile $progdir\Xtal_$navLabel_$i.log
+              break
+        endif
+        Delay 1s
+    EndLoop
+    RemoveFile $progdir\Xtal_$navLabel_$i.jpg
+
+    prob = $GxGyProb[3]
+    xtal1 = $GxGyProb[4]
+    if $prob == 0
+        echo  Can't detect any xtals
+        if $alignxtal != 1
+            echo  Skip this area
+	    iflag = 0
+            break
+        endif
+    elseif $xtal1 == 1
+        echo Ice xtal detected
+        if $iceflag != 1
+            echo  Skip ice
+	    iflag = 0
+            break
+         endif
+    endif
+   if $prob != 0
+        gdx = $GxGyProb[1] 
+        gdy = $GxGyProb[2]
+        gdx = $gdx * $beamdia * (1 )
+        gdy = $gdy * $beamdia * ( -1 )
+        shift = sqrt $gdx * $gdx + $gdy * $gdy
+         if $shift > $max_image_shift
+              echo Move stage by $gdx $gdy
+              MoveStage $gdy $gdx
+         endif
+    endif
+    iflag = 1
+EndLoop
+
+if $iflag == 1
+    if $prob != 0
+       T
+    endif
+    SaveToOtherFile A JPG JPG Xtal_$navLabel.jpg 
+endif

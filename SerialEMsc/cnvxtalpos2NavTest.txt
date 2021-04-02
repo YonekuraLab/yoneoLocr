@@ -1,0 +1,11 @@
+ScriptName cnvxtalpos2NavTest
+progdir = C:\ProgramData\yoneoLocr-yolov5
+cutlevel = 1 # 1: include thick crsystals 2: include thick crystals and at edges
+UserSetDirectory
+#   SaveNavigator
+ReportDirectory 
+curDir := $repVal1
+ReportNavFile 1
+navfile = $repVal1
+RunInShell $progdir\cnvxtalpos2Nav.bat $navfile.nav $curDir\SqXtals_ $navfile_new.nav $cutlevel
+MergeNavFile $navfile_new.nav

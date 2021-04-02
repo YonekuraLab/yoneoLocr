@@ -1,0 +1,77 @@
+ScriptName AlignyoneoHole
+# 200714 K. Yonekura, Image shift causes beam off. Should not use.
+# 210202 K. Yonekura, Use yolov5 to find carbon holes
+
+echo --------------------------- AlignyoneoHole ------------------------------
+#max_image_shift = 500
+max_image_shift = 300
+
+progdir = C:\ProgramData\yoneoLocr-yolov5
+watchinfile = InputImage.txt 
+
+#ReportNavItem
+#LowLimitCount = 25
+
+echo Centering by yoneoLocr and stage shifts
+echo maximum required image shift is $max_image_shift nm
+iflag = 0
+ResetImageShift
+
+Loop 5 i
+    V
+    ReportMeanCounts
+    MeanCountsF =  $reportedValue1
+    if (  $MeanCountsF < $LowLimitCount )
+        echo Counts too low
+        break
+    endif
+    if $i == 1
+       ImageProperties
+       xdim1 = $reportedValue1
+       ydim1 = $reportedValue2
+       binning1 = $reportedValue3
+       # repValue 4 exposure time
+       pixsize1 = $reportedValue5
+    endif
+    SaveToOtherFile A JPG JPG $progdir\View_$navLabel_$i.jpg
+    RunInShell echo View_$navLabel_$i.jpg $binning1 > $progdir\Watch\$watchinfile
+    GxGyProb = {0., 0., 0.}
+    Loop 10 j
+        OpenTextFile 1 T 0 $progdir\View_$navLabel_$i.log
+        if $reportedValue1 == 1
+              ReadTextFile GxGyProb $progdir\View_$navLabel_$i.log
+              # echo $GxGyProb[1] $GxGyProb[2]  $GxGyProb[3]
+              CloseTextFile 1
+	      RemoveFile $progdir\View_$navLabel_$i.log
+              break
+        endif
+        Delay 1s
+    EndLoop
+    RemoveFile $progdir\View_$navLabel_$i.jpg
+
+    prob = $GxGyProb[3]
+    if $prob == 0
+        echo  Can't detect any holes
+        break
+    endif
+    gdx = $GxGyProb[1] * $xdim1 
+    gdy = $GxGyProb[2] * $ydim1 
+    dx = $gdx * $pixsize1
+    dy = $gdy * $pixsize1
+    gdx = $gdx * $binning1 * (-2) # x 2 works well for CRYO ARM 300, SPring-8. 
+    gdy = $gdy * $binning1 * 2    # Should adjust for each stage. 210212  
+    shift = sqrt $dx * $dx + $dy * $dy
+    if $shift < $max_image_shift
+        echo Centered (image shift $shift nm)
+	iflag = 1
+        break
+    endif
+    echo Stage shift by $gdx $gdy
+    StageShiftByPixels $gdx $gdy
+EndLoop
+
+difflim = 1 # um
+if $iflag == 1
+ SaveToOtherFile A JPG JPG View_$navLabel.jpg 
+ #ShiftItemsByCurrentDiff $difflim
+endif

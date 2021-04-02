@@ -1,0 +1,50 @@
+ScriptName FindXtalPosyoneo
+
+# 210314 K. Yonekura, Use yolov5 to find carbon holes
+echo ------------------------ FindXtalPosyoneo -----------------------------
+progdir = C:\ProgramData\yoneoLocr-yolov5
+watchinfile = InputImage.txt 
+cutlevel = 1 # 1: include thick crsystals 2: include thick crystals and at edges
+
+IsVariableDefined curDir
+If $repVal1 == 0
+   UserSetDirectory
+#   SaveNavigator
+   ReportDirectory 
+   curDir := $repVal1
+Endif
+
+SelectCamera 1
+SetBinning T 8
+SetExposure T 0.1
+
+ReportNavItem 
+T          
+ImageProperties
+xdim1 = $reportedValue1
+ydim1 = $reportedValue2
+binning1 = $reportedValue3
+# repValue 4 exposure time
+# pixsize1 = $reportedValue5
+
+SetNewFileType 0
+OpenNewFile SqXtals_$navLabel.mrc
+Save A 
+SaveToOtherFile A JPG JPG $progdir\SqXtals_$navLabel.jpg
+RunInShell echo SqXtals_$navLabel.jpg $binning1 > $progdir\WatchLowmagXtal\$watchinfile
+
+NewMap
+CloseFile e
+
+#RemoveFile $progdir\SqXtals_$navLabel.jpg
+RunInShell mv $progdir\SqXtals_$navLabel.jpg $curDir\SqXtals_$navLabel.jpg
+RunInShell mv $progdir\SqXtals_$navLabel.log $curDir\SqXtals_$navLabel.mrc.log
+
+ReportNumNavAcquire
+If $repVal1 == 1 # This is the last item.
+   SaveNavigator
+   ReportNavFile 1
+   navfile = $repVal1
+   RunInShell $progdir\cnvxtalpos2Nav.bat $navfile.nav $curDir\SqXtals_ $navfile_new.nav $cutlevel
+   MergeNavFile $navfile_new.nav
+Endif

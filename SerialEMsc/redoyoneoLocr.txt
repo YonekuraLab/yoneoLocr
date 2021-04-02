@@ -1,0 +1,23 @@
+ScriptName redoyoneoLocr
+
+# # 210327 K. Yonekura, redo yoneLocr for Lowmagxtal
+
+progdir = C:\ProgramData\yoneoLocr-yolov5
+targetname = SqXtals_
+binning1 = 8
+confthres = 0.8
+cutlevel = 1 # 1: include thick crsystals 2: include thick crystals and at edges
+
+UserSetDirectory
+#   SaveNavigator
+ReportDirectory 
+curDir := $repVal1
+
+RunInShell $progdir\redoYoneoLocr.bat $curDir\$targetname  $binning1 $confthres
+
+delay 1 s
+
+ReportNavFile 1
+navfile = $repVal1
+RunInShell $progdir\cnvxtalpos2Nav.bat $navfile.nav $curDir\$targetname $navfile_new.nav $cutlevel
+MergeNavFile $navfile_new.nav

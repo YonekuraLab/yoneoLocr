@@ -1,0 +1,227 @@
+ScriptName RotParallEMyoneo
+
+# K. Yonekura, RIKEN SPring-8 Center 
+#
+# 15-Mar-21 K. Yonekura
+# 25-Sep-20 Support XF416
+#   9-May-20 Modified for DE64
+# 22-Apr-20 for DE-64 K. Yonekura
+# Modified for CRYO ARM 300 / JEM-2100 using ParallEM on 21-Jan-2020 
+#
+
+yoloflag = 1
+diffchk = 1
+
+alignxtal = 1        # 1: Take data when no xtal is found
+iceflag = 1           # 1: include ice; 0: exclude ice
+xtalquality  = 1    # 0: only good; 1: include soso; 2: include bad; 3: include all
+
+IsVariableDefined FIRSTTIME
+if $repVal1 == 0
+   UserSetDirectory
+   ReportDateTime
+   SaveLogOpenNew $repVal1$repVal2.log
+   FIRSTTIME := 1
+   YesNoBox Record only flashing time now?
+   if $repVal1 == 1
+      LongOperation FF -1
+   endif
+Endif
+
+#startAngle = -68 
+#endAngle   =  68
+startAngle  = -67
+endAngle   =  67
+#startAngle  = -15
+#endAngle   =  15
+
+# DE64
+DE_flag = 1
+frameRate = 20
+#frameRate = 5
+
+binning = 2
+
+#XF416
+#DE_flag = 0
+#binning = 1
+
+# CRYO ARM 300
+rotationSpeed          = 2    # 2 for 1 deg/s  CRYO ARM 300
+degpers                    = 1    # deg/s
+#rotationSpeed          = 1    # 1 for 2 deg/s  CRYO ARM 300
+#degpers                    = 2    # deg/s
+expTimeperFrame  = 1
+#expTimeperFrame  = 0.5
+goSpeed                  = 0    # max speed
+tiltWait = 15
+
+totalExposureTime = (ABS $endAngle - $startAngle) / $degpers + 1 # s
+#totalExposureTime = (ABS $endAngle - $startAngle) / $degpers + 3 # s
+direction = 1     # for rotation in positive direction 
+#direction =  -1 # for rotation in negative direction
+
+preoverun = 1. # pre / over run agnle for gonio start / stop
+
+flagCRYOARM = 1    # Care for flashing and refilling liquid nitrogen
+#waitBeforeTilt       = 14   # s for OneView
+#waitBeforeTilt       =   5   # s for EMMENU
+#waitBeforeTilt         =   1  # s for XF416 (no EMMENU)
+waitBeforeTilt       =   1  # s for DE-64, N/A for no Auto Exp 
+
+ParallEMbat = C:\ProgramData\ParallEM\CallRotation.bat 
+ParallEMsetDiff = C:\ProgramData\ParallEM\CallSetDiff.bat 
+
+#####################
+#   Camera setting
+#####################
+currentCamera = 1
+darkgain = 2
+recordMode = R
+
+SelectCamera $currentCamera
+CameraProperties
+echo Camera physical pixel size is $reportedValue4 um
+SetBinning $recordMode $binning
+SetProcessing $recordMode $darkgain
+SetCameraArea $recordMode F
+echo Total exposure time $totalExposureTime s at $expTimeperFrame s/frame
+SetExposure $recordMode $totalExposureTime 0
+
+# set Search condition
+SetBinning T 4
+SetProcessing T $darkgain
+SetCameraArea T F
+SetExposure T 0.1
+
+if $DE_flag == 1
+    SetDECamFrameRate $frameRate
+    echo Camera frame rate is $frameRate fps
+else
+    SetFrameTime $recordMode $expTimeperFrame # For XF416. This does not work with DE64
+endif
+echo Wait before tilt $waitBeforeTilt s
+
+ReportCameraLength
+ReportSpotSize
+ReportPercentC2
+
+FlashingInterval = 8
+delayTime =  3
+
+echo ========================================
+echo ===> Running RotationPEM
+echo ========================================
+SetBeamBlank 1
+ProgramTimeStamps
+
+if  $flagCRYOARM == 1
+loop 15
+  AreDewarsFilling
+  if $reportedvalue1 == 0
+       break
+  else
+    echo Dewars are filling
+    delay 60 sec
+  endif
+endloop
+LongOperation FF $FlashingInterval
+#call CheckFlashingTime
+endif
+
+#MoveToNavItem
+ReportNavItem
+#cx = $repVal2
+#cy = $repVal3
+#cz = $repVal4
+#CallFunction Utils2::ApproachVector $cx $cy
+#CallFunction Utils2::ApproachVectorZ $cz
+Delay 2 sec
+if  $FIRSTTIME == 1
+    RunInShell $ParallEMbat -300 0 $goSpeed 0 # Reset to Potentio # Reset gonio angle
+    Delay 2 sec  
+    RunInShell $ParallEMbat -1 0 $goSpeed 0   # Just change to Encoder 
+    Delay  2 sec
+    FIRSTTIME := 2
+    RunInShell $ParallEMsetDiff 1 # Data collection mode
+    Delay 2 sec
+Endif
+
+iflag = 0
+if $yoloflag == 1
+    RunInShell $ParallEMsetDiff 0 # Search mode
+    Delay 2 s
+    Call AlignyoneoXtal
+    if $iflag == 0
+	echo Locating xtal failed 
+ 	SkipAcquiringNavItem
+ 	return
+    endif
+    RunInShell $ParallEMsetDiff 1 # Data collection mode
+    Delay 2 s
+endif
+iflag = 0
+if $diffchk == 1
+    Call ChkDiffyoneo
+    if $iflag == 0
+	echo Locating xtal failed 
+ 	SkipAcquiringNavItem
+ 	return
+    endif
+endif
+
+echo ===> Tilting to $startAngle degrees
+#StopContinuous  # Just for confirmation
+#TiltTo $startAngle
+#RunInShell $ParallEMbat -1 0 $goSpeed 0   # Just change to Encoder 
+#Delay  2 sec
+RunInShell $ParallEMbat -1 $startAngle $goSpeed 0
+Delay $tiltWait sec
+##RunInShell $ParallEMbat -100 0 $goSpeed 0 # Send stop signal
+
+echo ===> Preparing beam.
+
+#if  $flagCRYOARM == 1
+#   SetColumnOrGunValve 1
+#endif
+
+ScreenUp
+echo Waiting for $delayTime seconds
+Delay $delayTime sec
+echo Target angle is $endAngle degree
+
+echo === Data collection using Rotation in ParallEM ===
+
+echo RunInShell $ParallEMbat $expTimeperFrame $endAngle $rotationSpeed 0
+RunInShell $ParallEMbat $expTimeperFrame $endAngle $rotationSpeed 0
+
+Delay $waitBeforeTilt
+R
+
+echo Data acquisition complete
+##RunInShell $ParallEMbat -100 0 $goSpeed 0 # Send stop signal
+if $flagCRYOARM == 1
+#   SetBeamBlank 1   
+#   SetColumnOrGunValve 0
+   #ScreenDown
+   #SetBeamBlank 1
+endif
+
+Delay $delayTime
+#TiltTo 0
+if $direction == -1
+   RunInShell $ParallEMbat -1 -$preoverun $goSpeed 0
+else
+   RunInShell $ParallEMbat -1 $preoverun $goSpeed 0
+endif
+Delay $tiltWait sec
+##RunInShell $ParallEMbat -100 0 $goSpeed 0 # Send stop signal
+
+echo Reset to 0 degree
+ProgramTimeStamps
+echo ===> Microscope standby
+##RunInShell $ParallEMbat -300 0 $goSpeed 0 # Reset to Potentio
+##Delay 2 sec
+if $DE_flag != 1
+     Delay 20 sec
+endif
