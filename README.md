@@ -4,7 +4,6 @@
 210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
 &nbsp;&nbsp;&nbsp;Derived from detect.py in yolov5<BR>
 210403 Version 1.0<BR><BR>
-
 Installation<BR>
 1. Put yoneoLocr-yolov5 on C:\ProgramData\ in a camera control Windows PC.
 2. Install CUDA toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 12R.  CUDA 10.1 is the newest version supporting Windows Server 12R. Newer versions of CUDA and cuDNN are available for Windows 10.
