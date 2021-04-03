@@ -1,5 +1,5 @@
 # yoneoLocr
-Real-time object locator for cryo-EM data collection
+# Real-time object locator for cryo-EM data collection
 
 210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
 Derived from detect.py in yolov5<BR>
@@ -13,7 +13,7 @@ Installation<BR>
 5. Launch Anaconda Prompt. Make and activate an Anaconda environment as,<BR>
  $ conda create -n yolov5-4.0 python=3.8<BR>
  $ conda activate yolov5-4.0<BR>
-6. Go to the yoneoLocr-yolov5 directory and install python libraries as,<BR>  
+6. Go to the yoneoLocr-yolov5 directory and install python libraries as,<BR>
  $ conda install -c pytorch torchvision cudatoolkit=10.1<BR> 
  $ pip install -r requirements.txt<BR>
 7. Make shortcuts of yoneoLocrHole.bat, yoneoLocrXtal.bat, yoneoLocrDiff.bat, and yoneoLocrLowmagXtal.bat on the desktop.
