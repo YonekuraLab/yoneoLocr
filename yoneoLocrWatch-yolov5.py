@@ -1,6 +1,7 @@
 # Locate objects such as carbon holes or crystals with yolov5 and PyTorch
 # 210202 K. Yonekura, RIKEN SPring-8/Tohoku University
 #          Derived from detect.py in yolov5
+# 210403 Version 1.0
 
 import argparse
 import time, os, subprocess, datetime, re, math
@@ -372,6 +373,9 @@ if __name__ == '__main__':
             watchdir = ".\\WatchDiff"
         elif object_detect == "lowmagxtal":
             watchdir = ".\\WatchLowmagXtal"
+        if not os.path.exists(watchdir) :
+            os.makedirs(watchdir)
+
         pcthres = opt.conf_thres
         observer = Observer()
         observer.schedule(event_handler, watchdir, recursive=True)
