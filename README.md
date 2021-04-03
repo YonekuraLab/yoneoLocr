@@ -1,12 +1,9 @@
 # yoneoLocr
 Real-time object locator for cryo-EM data collection
 
-History
-
 210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
 Derived from detect.py in yolov5<BR>
-
-210403 Version 1.0
+210403 Version 1.0<BR>
 
 Installation.
 1. Put yoneoLocr-yolov5 on C:\ProgramData\ in a camera control Windows PC.
