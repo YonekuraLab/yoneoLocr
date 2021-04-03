@@ -3,9 +3,8 @@ Real-time object locator for cryo-EM data collection
 
 History
 
-210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University
-
-Derived from detect.py in yolov5
+210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
+Derived from detect.py in yolov5<BR>
 
 210403 Version 1.0
 
@@ -16,9 +15,9 @@ Installation.
 4. Install ImageMagick.
 5. Launch Anaconda Prompt. Make and activate an Anaconda environment as,
  
- > conda create -n yolov5-4.0 python=3.8
+ $ conda create -n yolov5-4.0 python=3.8
  
- > conda activate yolov5-4.0
+ $ conda activate yolov5-4.0
  
 6. Go to the yoneoLocr-yolov5 directory and install python libraries as, 
  
