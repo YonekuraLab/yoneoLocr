@@ -2,7 +2,7 @@
 Real-time object locator for cryo-EM data collection
 
  210202 Koji Yonekura, RIKEN SPring-8/Tohoku University
-  Derived from detect.py in yolov5
+ Derived from detect.py in yolov5
  210403 Version 1.0
 
 Installation.
