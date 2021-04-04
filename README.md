@@ -17,3 +17,5 @@ Installation<BR>
  $ pip install -r requirements.txt<BR>
 7. Make shortcuts of yoneoLocrHole.bat, yoneoLocrXtal.bat, yoneoLocrDiff.bat, and yoneoLocrLowmagXtal.bat on the desktop.
 8. Launch yoneoLocrWatch.py from the shortcuts.
+<BR>
+This github site includes weights for "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
