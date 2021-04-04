@@ -3,6 +3,7 @@
 
 210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
 &nbsp;&nbsp;&nbsp;Derived from detect.py in yolov5<BR>
+&nbsp;&nbsp;&nbsp;cnvxtalpos2Nav.py: Derived from convLM2DIFF.py (by Kiyofumi Takaba)<BR>
 210403 Version 1.0<BR><BR>
 Installation<BR>
 1. Put yoneoLocr-yolov5 on C:\ProgramData\ in a camera control Windows PC.
@@ -18,4 +19,4 @@ Installation<BR>
 7. Make shortcuts of yoneoLocrHole.bat, yoneoLocrXtal.bat, yoneoLocrDiff.bat, and yoneoLocrLowmagXtal.bat on the desktop.
 8. Launch yoneoLocrWatch.py from the shortcuts.
 <BR>
-This github site includes weights for "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
+The github site includes weights for "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
