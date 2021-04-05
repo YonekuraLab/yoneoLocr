@@ -11,8 +11,8 @@
 3. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
 4. Install ImageMagick.
 5. Launch Anaconda Prompt. Make and activate an Anaconda environment as,<BR>
- > conda create -n yolov5-4.0 python=3.8<BR>
- $ conda activate yolov5-4.0<BR>
+ >> conda create -n yolov5-4.0 python=3.8<BR>
+ >> conda activate yolov5-4.0<BR>
 6. Go to the yoneoLocr-yolov5 directory and install python libraries as,<BR>
  $ conda install -c pytorch torchvision cudatoolkit=10.1<BR> 
  $ pip install -r requirements.txt<BR>
