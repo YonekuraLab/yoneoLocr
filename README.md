@@ -1,6 +1,6 @@
 # yoneoLocr
 ### Real-time object locator for cryo-EM data collection
-
+#### --- You only navigate EM once ---
 210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
 &nbsp;&nbsp;&nbsp;Derived from detect.py in yolov5<BR>
 &nbsp;&nbsp;&nbsp;cnvxtalpos2Nav.py: Derived from convLM2DIFF.py (by Kiyofumi Takaba)<BR>
@@ -19,4 +19,4 @@
 7. Make shortcuts of yoneoLocrHole.bat, yoneoLocrXtal.bat, yoneoLocrDiff.bat, and yoneoLocrLowmagXtal.bat on the desktop.
 8. Launch yoneoLocrWatch.py from the shortcuts.
 ### Notes
-The github site includes weights for "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
+* The github site includes weights for "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
