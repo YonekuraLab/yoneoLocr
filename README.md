@@ -23,4 +23,4 @@
 7. Make shortcuts of yoneoLocrHole.bat, yoneoLocrXtal.bat, yoneoLocrDiff.bat, and yoneoLocrLowmagXtal.bat on the desktop.
 8. Launch yoneoLocrWatch.py from the shortcuts.
 ### Notes
-* The github site includes weights for "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
+* The github site includes weights for only "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
