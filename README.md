@@ -15,7 +15,7 @@
    > conda create -n yolov5-4.0 python=3.8
    > conda activate yolov5-4.0
 ```
-6. Go to the yoneoLocr-yolov5 directory and install python libraries as,
+6. Go to the yoneoLocr directory and install python libraries as,
 ```
    > conda install -c pytorch torchvision cudatoolkit=10.1 
    > pip install -r requirements.txt
