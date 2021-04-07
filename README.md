@@ -6,7 +6,7 @@
 &nbsp;&nbsp;&nbsp;cnvxtalpos2Nav.py: Derived from convLM2DIFF.py (by Kiyofumi Takaba)<BR>
 210403 Version 1.0<BR>
 ### Installation
-1. Put yoneoLocr-yolov5 on C:\ProgramData\ in a camera control Windows PC.
+1. Put the yoneoLocr directory on C:\ProgramData\ in a camera control Windows PC.
 2. Install CUDA toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 12R.  CUDA 10.1 is the newest version supporting Windows Server 12R. Newer versions of CUDA and cuDNN are available for Windows 10.
 3. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
 4. Install ImageMagick.
