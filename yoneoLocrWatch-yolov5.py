@@ -2,6 +2,7 @@
 # 210202 K. Yonekura, RIKEN SPring-8/Tohoku University
 #          Derived from detect.py in yolov5
 # 210403 Version 1.0
+# 210405 1.01
 
 import argparse
 import time, os, subprocess, datetime, re, math
@@ -112,7 +113,7 @@ def diffchk(score1, clno1, hscore1, hclno1):
     return hscore1, hclno1
 
 def detectloop():
-    global prevdata, pcthres, newdir
+    global prevdata
     with open(watchdir + "\\InputImage.txt") as fdin:
         word = fdin.readline().split()
     inputdata = word[0]
@@ -127,23 +128,12 @@ def detectloop():
 
     binning   = 2
     lenwords = len(word)
-    cthres = opt.conf_thres
-    if lenwords > 2:
-        binning = int(word[1])
-        cthres  = float(word[2])
-        print("\nIn \"%s\", binning %d, conf-thres %.3f" % \
-              (inputdata, binning, cthres))
-    elif lenwords > 1:
+    if lenwords > 1:
         binning   = int(word[1])
         print("\nIn \"%s\", binning %d" % (inputdata, binning))
     else :
         print("\nIn \"%s\"" % inputdata)
-    if cthres != pcthres and delout != "yes" :
-        newdir = "jpgout"+datetime.datetime.now().strftime("%y%m%d")+\
-                 "_{:.3f}\\".format(cthres)
-        if not os.path.exists(newdir) :
-            os.makedirs(newdir)
-    pcthres = cthres
+
     p0 = Path(inputdata)
     cnvimg = p0.stem + "c.jpg" 
     if binning < 8 and object_detect == 'hole':
@@ -177,7 +167,7 @@ def detectloop():
         pred = model(img, augment=opt.augment)[0]
 
         # Apply NMS
-        pred = non_max_suppression(pred, cthres, opt.iou_thres,\
+        pred = non_max_suppression(pred, opt.conf_thres, opt.iou_thres,\
                                 classes=opt.classes, agnostic=opt.agnostic_nms)
         t2 = time_synchronized()
 
@@ -359,7 +349,12 @@ if __name__ == '__main__':
         _ = model(img.half() if half else img) if device.type != 'cpu' else None
         newdir = ".\\"
         if delout != "yes" :
-            newdir = "jpgout"+datetime.datetime.now().strftime("%y%m%d")+"\\"
+            if opt.conf_thres != 0.25:
+                sthres = "_{:.3f}\\".format(opt.conf_thres)
+            else:
+                sthres = ""
+            newdir = "jpgout"+datetime.datetime.now().strftime("%y%m%d")+ \
+                     sthres + "\\"
             if not os.path.exists(newdir) :
                 os.makedirs(newdir)
 
@@ -376,7 +371,6 @@ if __name__ == '__main__':
         if not os.path.exists(watchdir) :
             os.makedirs(watchdir)
 
-        pcthres = opt.conf_thres
         observer = Observer()
         observer.schedule(event_handler, watchdir, recursive=True)
         observer.start()
