@@ -25,15 +25,21 @@
 ### Notes
 * The github site includes weights for only "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
 ### Command line options
- ```
---object hole / xtal / diff / lowmagxtal<BR>
-```
 &nbsp;&nbsp;&nbsp;Select running mode.<BR>
---conf-sel 0.4<BR>
+ ```
+--object hole / xtal / diff / lowmagxtal
+```
 &nbsp;&nbsp;&nbsp;A confidence threshold for object selection in hole and lowmagxtal modes. Default 0.4.<BR>
---delout yes / no<BR>
+```
+--conf-sel 0.4
+```
 &nbsp;&nbsp;&nbsp;Delete output file showing objects enclosed with boxes. Default: no.<BR>
---ice yes / no<BR>
+```
+--delout yes / no
+```
 &nbsp;&nbsp;&nbsp;Include ice crystals for positioning in xtal mode. Default: no.<BR>
-Other options in the original script detect.py in YOLOv5 are also available.
+```
+--ice yes / no
+```
+* Other options in the original script detect.py in YOLOv5 are also available.
 
