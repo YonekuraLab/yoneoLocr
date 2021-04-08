@@ -6,7 +6,8 @@ REM python .\yoneoLocrWatch-yolov5.py --weights weights\lowmagxtalx800_210314.pt
 REM python .\yoneoLocrWatch-yolov5.py --weights weights\lowmagxtals800_210325.pt --object lowmagxtal --conf-sel 0.25
 
 if "%1"=="" ( set thres="0.5" ) else (set thres="%1" )
-
+C:
+cd \ProgramData\yoneoLocr\
 python .\yoneoLocrWatch-yolov5.py --weights weights\lowmagxtals800_210325.pt --object lowmagxtal --conf-thres %thres% --conf-sel 0.25
 
 

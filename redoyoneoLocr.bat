@@ -1,6 +1,4 @@
 set exepath="C:\ProgramData\yoneoLocr"
-%exepath%\yoneoLowmagXtal.bat %3
-timeout /t 20
 set watchdir="WatchLowmagXtal"
 for %%i in (%1*.jpg) do (
 copy %%i %exepath%
