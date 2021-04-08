@@ -24,14 +24,14 @@
 8. Launch yoneoLocrWatch.py from the shortcuts.
 ### Notes
 * The github site includes weights for only "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
-### Command line options 
---object hole / xtal / diff / lowmagxtal
+### Command line options
+--object hole / xtal / diff / lowmagxtal<BR>
 &nbsp;&nbsp;&nbsp;Select running mode.
---conf-sel 0.4
-&nbsp;&nbsp;&nbsp;A confidence threshold for object selection in hole and lowmagxtal modes. Default 0.4.
---delout yes / no
-&nbsp;&nbsp;&nbsp;Delete output file showing objects enclosed with boxes. Default: no.
---ice yes / no
-&nbsp;&nbsp;&nbsp; Include ice crystals for positioning in xtal mode. Default: no.
+--conf-sel 0.4<BR>
+&nbsp;&nbsp;&nbsp;A confidence threshold for object selection in hole and lowmagxtal modes. Default 0.4.<BR>
+--delout yes / no<BR>
+&nbsp;&nbsp;&nbsp;Delete output file showing objects enclosed with boxes. Default: no.<BR>
+--ice yes / no<BR>
+&nbsp;&nbsp;&nbsp;Include ice crystals for positioning in xtal mode. Default: no.<BR>
 Other options in the original script detect.py in YOLOv5 are also available.
 
