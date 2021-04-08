@@ -20,7 +20,7 @@
    > conda install -c pytorch torchvision cudatoolkit=10.1 
    > pip install -r requirements.txt
 ```
-7. Make shortcuts of yoneoLocrHole.bat, yoneoLocrXtal.bat, yoneoLocrDiff.bat, and yoneoLocrLowmagXtal.bat on the desktop.
+7. Make shortcuts of yoneoHole.bat, yoneoXtal.bat, yoneoDiff.bat, and yoneoLowmagXtal.bat on the desktop.
 8. Launch yoneoLocrWatch.py from the shortcuts.
 ### Command line options
 * Select running mode.
