@@ -39,5 +39,6 @@
 ```
 --ice yes / no
 ```
-* Other options in the original script detect.py in YOLOv5 are also available.### Notes
+* Other options in the original script detect.py in YOLOv5 are also available.
+* ### Notes
 * The github site includes weights for only "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
