@@ -2,7 +2,7 @@ ScriptName redoyoneoLocr
 
 # # 210327 K. Yonekura, redo yoneLocr for Lowmagxtal
 
-progdir = C:\ProgramData\yoneoLocr-yolov5
+progdir = C:\ProgramData\yoneoLocr
 targetname = SqXtals_
 binning1 = 8
 confthres = 0.8

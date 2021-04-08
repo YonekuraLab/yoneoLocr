@@ -6,7 +6,7 @@ echo --------------------------- AlignyoneoHole ------------------------------
 #max_image_shift = 500
 max_image_shift = 300
 
-progdir = C:\ProgramData\yoneoLocr-yolov5
+progdir = C:\ProgramData\yoneoLocr
 watchinfile = InputImage.txt 
 
 #ReportNavItem
@@ -59,7 +59,7 @@ Loop 5 i
     dx = $gdx * $pixsize1
     dy = $gdy * $pixsize1
     gdx = $gdx * $binning1 * (-2) # x 2 works well for CRYO ARM 300, SPring-8. 
-    gdy = $gdy * $binning1 * 2    # Should adjust for each stage. 210212  
+    gdy = $gdy * $binning1 * 2    # Should adjust for each machine. 210212  
     shift = sqrt $dx * $dx + $dy * $dy
     if $shift < $max_image_shift
         echo Centered (image shift $shift nm)

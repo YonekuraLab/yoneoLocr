@@ -3,7 +3,7 @@ ScriptName AlignyoneoXtal
 
 echo ------------------------ AlignyoneoXtal -----------------------------
 
-progdir = C:\ProgramData\yoneoLocr-yolov5
+progdir = C:\ProgramData\yoneoLocr
 watchinfile = InputImage.txt 
 
 ReportNavItem
@@ -70,8 +70,8 @@ Loop 1 i
    if $prob != 0
         gdx = $GxGyProb[1] 
         gdy = $GxGyProb[2]
-        gdx = $gdx * $beamdia * (1 )
-        gdy = $gdy * $beamdia * ( -1 )
+        gdx = $gdx * $beamdia * (2)  # x 2 well at CRYO ARM 300, SPring-8. 
+        gdy = $gdy * $beamdia * (-2) # Should adjust for each machine.
         shift = sqrt $gdx * $gdx + $gdy * $gdy
          if $shift > $max_image_shift
               echo Move stage by $gdx $gdy

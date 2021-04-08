@@ -2,7 +2,7 @@ ScriptName cnvxtalpos2NavTest
 
 # 210311 K. Yonekura
 
-progdir = C:\ProgramData\yoneoLocr-yolov5
+progdir = C:\ProgramData\yoneoLocr
 cutlevel = 1 # 1: include thick crsystals 2: include thick crystals and at edges
 UserSetDirectory
 #   SaveNavigator

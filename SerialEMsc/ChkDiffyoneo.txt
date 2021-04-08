@@ -3,7 +3,7 @@ ScriptName ChkDiffyoneo
 
 echo --------------------- ChkDiffyoneo ---------------------------
 
-progdir = C:\ProgramData\yoneoLocr-yolov5
+progdir = C:\ProgramData\yoneoLocr
 watchinfile = InputImage.txt 
 
 #ReportNavItem
