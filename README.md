@@ -5,6 +5,8 @@
 &nbsp;&nbsp;&nbsp;Derived from detect.py in yolov5<BR>
 &nbsp;&nbsp;&nbsp;cnvxtalpos2Nav.py: Derived from convLM2DIFF.py (by Kiyofumi Takaba)<BR>
 210403 Version 1.0<BR>
+### Reference
+* https://biorxiv.org/cgi/content/short/2021.04.07.438905v1
 ### Installation
 1. Download yoneoLocr-main.zip from https://github.com/YonekuraLab/yoneoLocr.
 2.	Extract the zip file and put the whole directory as yoneoLocr in C:\ProgramData\ of a camera control Windows PC.
