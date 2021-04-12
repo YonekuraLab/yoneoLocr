@@ -6,7 +6,7 @@ echo ------------------------ AlignyoneoXtal -----------------------------
 progdir = C:\ProgramData\yoneoLocr
 watchinfile = InputImage.txt 
 
-ReportNavItem
+#ReportNavItem
 alignxtal = 1
 
 beamdia = 5.1 # with 100 um CL Aperture and Alpha = 5

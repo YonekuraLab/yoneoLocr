@@ -7,14 +7,13 @@ progdir = C:\ProgramData\yoneoLocr
 watchinfile = InputImage.txt 
 
 #ReportNavItem
-#LowLimitCount = 25
 
 echo Checking xtal by yoneoLocr
 iflag = 0
-
+i = 1
 T
 SaveToOtherFile A JPG JPG $progdir\Diff_$navLabel_$i.jpg
-RunInShell echo Diff_$navLabel_$i.jpg $binning1 > $progdir\WatchDiff\$watchinfile
+RunInShell echo Diff_$navLabel_$i.jpg > $progdir\WatchDiff\$watchinfile
 xtalsp = {0., 0}
 Loop 10 j
       OpenTextFile 1 T 0 $progdir\Diff_$navLabel_$i.log
@@ -30,15 +29,15 @@ RemoveFile $progdir\Diff_$navLabel_$i.jpg
 if $xtalsp[1] == 0
    echo Can't indentify this pattern
    iflag = 1
-elif $xtalsp[2] == 0
+elseif $xtalsp[2] == 0
    echo Diffraction is good
-elif $xtalsp[2] == 1
+elseif $xtalsp[2] == 1
    echo Diffraction is soso
-elif $xtalsp[2] == 2
+elseif $xtalsp[2] == 2
    echo Diffraction is bad
-elif $xtalsp[2] == 3
+elseif $xtalsp[2] == 3
    echo No xtal diffraction
-elif $xtalsp[2] == 4
+elseif $xtalsp[2] == 4
    echo Diffraction likely comes from ice
 endif
 if $xtalsp[1] != 0
