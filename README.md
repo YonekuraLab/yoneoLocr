@@ -11,7 +11,7 @@
 1. Download yoneoLocr-main.zip from https://github.com/YonekuraLab/yoneoLocr.
 2.	Extract the zip file and put the whole directory as yoneoLocr in C:\ProgramData\ of a camera control Windows PC.
 3.	Set the property of batch files to “full control” from the Security tab if needed.
-4.	Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 12R.  CUDA 10.1 is the final version supporting Windows Server 12R. Newer versions of CUDA and cuDNN are available for Windows 10.
+4.	Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 2012R.  CUDA 10.1 is the final version supporting Windows Server 12R. Newer versions of CUDA and cuDNN are available for Windows 10.
 5. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
 6. Install ImageMagick.
 7. Launch Anaconda Prompt. Make and activate an Anaconda environment as,
