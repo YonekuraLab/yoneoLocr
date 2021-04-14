@@ -1,3 +1,4 @@
+![Top](yoneo.ico)
 # yoneoLocr
 ### Real-time object locator for cryo-EM data collection
 #### --- You only navigate EM once ---
