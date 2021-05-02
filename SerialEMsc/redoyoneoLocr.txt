@@ -22,3 +22,5 @@ ReportNavFile 1
 navfile = $repVal1
 RunInShell $progdir\cnvxtalpos2Nav.bat $navfile.nav $curDir\$targetname $navfile_new.nav $cutlevel
 MergeNavFile $navfile_new.nav
+
+RunInShell taskkill /FI "WINDOWTITLE eq yoneoLowmagXtal"
