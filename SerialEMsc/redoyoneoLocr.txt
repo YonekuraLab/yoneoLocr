@@ -12,7 +12,7 @@ UserSetDirectory
 #   SaveNavigator
 ReportDirectory 
 curDir := $repVal1
-RunInShell start $progdir\yoneoLowmagXtal.bat $confthres 
+RunInShell start "yoneoLow" $progdir\yoneoLowmagXtal.bat $confthres 
 delay 10 s
 RunInShell $progdir\redoyoneoLocr.bat $curDir\$targetname $binning1
 
@@ -23,4 +23,4 @@ navfile = $repVal1
 RunInShell $progdir\cnvxtalpos2Nav.bat $navfile.nav $curDir\$targetname $navfile_new.nav $cutlevel
 MergeNavFile $navfile_new.nav
 
-RunInShell taskkill /FI "WINDOWTITLE eq yoneoLowmagXtal"
+RunInShell taskkill /FI "WINDOWTITLE eq yoneoLow*"
