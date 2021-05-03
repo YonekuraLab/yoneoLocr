@@ -26,19 +26,23 @@ ydim1 = $reportedValue2
 binning1 = $reportedValue3
 # repValue 4 exposure time
 # pixsize1 = $reportedValue5
+navLabel1 = $navLabel
 
 SetNewFileType 0
-OpenNewFile SqXtals_$navLabel.mrc
+OpenNewFile SqXtals_$navLabel1.mrc
 Save A 
-SaveToOtherFile A JPG JPG $progdir\SqXtals_$navLabel.jpg
-RunInShell echo SqXtals_$navLabel.jpg $binning1 > $progdir\WatchLowmagXtal\$watchinfile
+SaveToOtherFile A JPG JPG $progdir\SqXtals_$navLabel1.jpg
+RunInShell echo SqXtals_$navLabel1.jpg $binning1 > $progdir\WatchLowmagXtal\$watchinfile
 
 NewMap
 CloseFile e
+ReportOtherItem -1
+#echo $repVal1 $navLabel1
+ChangeItemLabel $repVal1 $navLabel1-A
 
 #RemoveFile $progdir\SqXtals_$navLabel.jpg
-RunInShell mv $progdir\SqXtals_$navLabel.jpg $curDir\SqXtals_$navLabel.jpg
-RunInShell mv $progdir\SqXtals_$navLabel.log $curDir\SqXtals_$navLabel.mrc.log
+RunInShell mv $progdir\SqXtals_$navLabel1.jpg $curDir\SqXtals_$navLabel1.jpg
+RunInShell mv $progdir\SqXtals_$navLabel1.log $curDir\SqXtals_$navLabel1.mrc.log
 
 ReportNumNavAcquire
 If $repVal1 == 1 # This is the last item.
@@ -47,4 +51,7 @@ If $repVal1 == 1 # This is the last item.
    navfile = $repVal1
    RunInShell $progdir\cnvxtalpos2Nav.bat $navfile.nav $curDir\SqXtals_ $navfile_new.nav $cutlevel
    MergeNavFile $navfile_new.nav
+#  RunInShell taskkill /FI "WINDOWTITLE eq yoneoLow*"
 Endif
+
+
