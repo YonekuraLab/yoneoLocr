@@ -116,6 +116,8 @@ def detectloop():
     global prevdata
     with open(watchdir + "\\InputImage.txt") as fdin:
         word = fdin.readline().split()
+    if len(word) < 1:
+        return
     inputdata = word[0]
     if prevdata == inputdata :
         prevdata = " "
