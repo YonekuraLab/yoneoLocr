@@ -39,13 +39,60 @@ def outdiff(outfile, hscore1, hclno1, inputdata1):
         fdout.write("# %s" % datetime.datetime.today())
         
 def outlowmagXtalpos(outfile, xcen1, ycen1, xlen1, ylen1, score1, clno1):
-    if score1 > confsel:
+    if score1 > confsel or clno1 == 3.:
         with open(outfile,"a") as fdout:
             fdout.write("%f %f %f %f %f %f\n" % \
                         (score1, clno1, xcen1, ycen1, xlen1, ylen1))
 
 def outlowmagXtalEnd(outfile, inputdata1):
-    with open(outfile,"a") as fdout:
+    pos2 = []
+    neighbor = [] 
+    with open(outfile,"r") as fdin:
+        ncn = 0
+        ncp = 0
+        line = fdin.readline()
+        while line:
+            w2 = line.split()
+            if len(w2) > 5:
+                score2, clno2, xcen2, ycen2, xlen2, ylen2 = eval(w2[0]),\
+                    eval(w2[1]),eval(w2[2]),eval(w2[3]),eval(w2[4]),eval(w2[5])
+                if clno2 == 3. :
+                    x0 = xcen2 - xlen2/2.
+                    y0 = ycen2 - ylen2/2.
+                    x1 = xcen2 + xlen2/2.
+                    y1 = ycen2 + ylen2/2.
+                    if x0 < 0.03: x0 = 0.
+                    elif x0 > 0.97: x0 = 1.
+                    if y0 < 0.03: y0 = 0.
+                    elif y0 > 0.97: y0 = 1.
+                    if x1 < 0.03: x1 = 0.
+                    elif x1 > 0.97: x1 = 1.
+                    if y1 < 0.03: y1 = 0.
+                    elif y1 > 0.97: y1 = 1.
+                    ncn += 1
+                    print("Neighboring square %d (%.3f,%.3f)-(%.3f,%.3f)" % \
+                        (ncn,x0,y0,x1,y1))
+                    neighbor.append([x0,y0,x1,y1])
+                else :
+                    ncp += 1
+                    pos2.append([score2, clno2, xcen2, ycen2, xlen2, ylen2, 1])
+            line = fdin.readline()
+    for i in range(ncp):
+        xcen3 = pos2[i][2]
+        ycen3 = pos2[i][3]
+        for j in range(ncn):
+            x0 = neighbor[j][0]
+            y0 = neighbor[j][1]
+            x1 = neighbor[j][2]
+            y1 = neighbor[j][3]
+            if x1 >= xcen3 >= x0 and y1 >= ycen3 >= y0:
+                pos2[i][6] = 0
+                break
+    with open(outfile,"w") as fdout:
+        for i in range(ncp):
+            if pos2[i][6] :
+                fdout.write("%f %f %f %f %f %f\n" % (pos2[i][0],pos2[i][1],\
+                                pos2[i][2],pos2[i][3],pos2[i][4],pos2[i][5]))
         fdout.write("# %s %s" % (inputdata1, datetime.datetime.today()))
 
 def holemax(score1, xcen1, ycen1, xlen1, ylen1, hmax1, maxlen1,\
