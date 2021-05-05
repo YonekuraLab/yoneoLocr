@@ -125,9 +125,9 @@ def outnav(f1, xyz, pixsize1, xdim1, ydim1, xs1, ys1, zs1, rot1, \
     f1.write("Type = 0\n")
     f1.write("Note = yoneoLocr {:.3f} {:.3f} conf {:.3f} cl {:.0f} {:}\n".\
              format(xyz[0], xyz[1], xyz[4], xyz[5], inm1))
-    f1.write("RawStageXY = {:.3f} {:.3f}\n".format(newx, newy))
+    #f1.write("RawStageXY = {:.3f} {:.3f}\n".format(newx, newy))
     f1.write("Acquire = 0\n") # 1 for 'A'
-    f1.write("GroupID = {:}\n".format(base1))
+    f1.write("GroupID = {:}\n".format("10000"+base1))
     #f1.write("GroupID = 123456789\n")
     f1.write("PtsX = {:.3f}\n".format(newx))
     f1.write("PtsY = {:.3f}\n\n".format(newy))
