@@ -44,6 +44,10 @@
 ```
    --ice yes / no
 ```
+* Equalize image histogram. Only effective in hole mode. Default: yes.
+```
+   --ice yes / no
+```
 * Other options in the original script detect.py in YOLOv5 are also available.
 ### Notes
 * The github site includes a weight for only "hole" due to file size limit. Other weights are downloadable from our web site.
