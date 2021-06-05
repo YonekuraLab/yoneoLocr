@@ -187,8 +187,12 @@ def detectloop():
     cnvimg = p0.stem + "c.jpg" 
     if binning < 8 and object_detect == 'hole':
         print("Resize by 50%% and enhance image contrast.")
-        res = subprocess.call(
-            "magick convert %s -resize 50%% -equalize %s" % (inputdata, cnvimg))
+        if equalize == "yes":
+            res = subprocess.call(
+                "magick convert %s -resize 50%% -equalize %s" % (inputdata, cnvimg))
+        else :
+            res = subprocess.call(
+                "magick convert %s -resize 50%% %s" % (inputdata, cnvimg))
         source  = cnvimg
     elif ( binning <= 8 and object_detect == 'xtal') or \
          ( binning < 8  and object_detect == 'lowmagxtal'):
@@ -364,6 +368,7 @@ if __name__ == '__main__':
     parser.add_argument('--object',  type=str, default='hole', help='object to be saved')
     parser.add_argument('--delout',  type=str, default='no', help='delete output (yes/no)')
     parser.add_argument('--ice',  type=str, default='no', help='include ice (yes/no)')
+    parser.add_argument('--equalize',  type=str, default='yes', help='equalize image histogram, only effective in hole mode (yes/no)')
     opt = parser.parse_args()
     print(opt)
 
@@ -419,6 +424,7 @@ if __name__ == '__main__':
             watchdir = ".\\WatchLowmagXtal"
         if not os.path.exists(watchdir) :
             os.makedirs(watchdir)
+        equalize = opt.equalize
 
         observer = Observer()
         observer.schedule(event_handler, watchdir, recursive=True)
