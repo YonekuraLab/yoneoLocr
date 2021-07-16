@@ -17,8 +17,8 @@
 6. Install ImageMagick.
 7. Launch Anaconda Prompt. Make and activate an Anaconda environment as,
 ```
-   > conda create -n yolov5-4.0 python=3.8
-   > conda activate yolov5-4.0
+   > conda create -n yolov5 python=3.8
+   > conda activate yolov5
 ```
 8. Go to the yoneoLocr directory and install python libraries as,
 ```
