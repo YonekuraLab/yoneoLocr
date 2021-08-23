@@ -1,6 +1,6 @@
 ![Top](yoneo.ico)
 # yoneoLocr
-### Real-time object locator for cryo-EM data collection
+### Real-time object locator / evaluator for cryo-EM data collection
 #### --- You only navigate EM once ---
 210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
 &nbsp;&nbsp;&nbsp;Derived from detect.py in yolov5<BR>
