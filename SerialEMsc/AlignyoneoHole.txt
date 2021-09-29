@@ -35,7 +35,7 @@ Loop 5 i
     endif
     SaveToOtherFile A JPG JPG $progdir\View_$navLabel_$i.jpg
     RunInShell echo View_$navLabel_$i.jpg $binning1 > $progdir\Watch\$watchinfile
-    GxGyProb = {0., 0., 0.}
+    GxGyProb = {0. 0. 0.}
     Loop 10 j
         OpenTextFile 1 T 0 $progdir\View_$navLabel_$i.log
         if $reportedValue1 == 1
