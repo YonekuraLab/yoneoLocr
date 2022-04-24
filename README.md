@@ -22,7 +22,7 @@
 ```
 8. Go to the yoneoLocr directory and install python libraries as,
 ```
-   > conda install -c pytorch torchvision cudatoolkit=10.1 
+   > conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch
    > pip install -r requirements.txt
 ```
 9. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
