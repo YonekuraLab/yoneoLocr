@@ -15,42 +15,37 @@ def gsutil_getsize(url=''):
     s = subprocess.check_output('gsutil du %s' % url, shell=True).decode('utf-8')
     return eval(s.split(' ')[0]) if len(s) else 0  # bytes
 
-#210713 replaced to new one suggested by F. Makino. Old one needed the internet connection
-def attempt_download(file, repo='ultralytics/yolov5'):  # from utils.google_utils import *; attempt_download()
-    # Attempt file download if does not exist
-    file = Path(str(file).strip().replace("'", ''))
 
-    if not file.exists():
-        # URL specified
-        name = Path(urllib.parse.unquote(str(file))).name  # decode '%2F' to '/' etc.
-        if str(file).startswith(('http:/', 'https:/')):  # download
-            url = str(file).replace(':/', '://')  # Pathlib turns :// -> :/
-            name = name.split('?')[0]  # parse authentication https://url.com/file.txt?auth...
-            safe_download(file=name, url=url, min_bytes=1E5)
-            return name
+def attempt_download(weights):
+    # Attempt to download pretrained weights if not found locally
+    weights = str(weights).strip().replace("'", '')
+    file = Path(weights).name.lower()
 
-        # GitHub assets
-        file.parent.mkdir(parents=True, exist_ok=True)  # make parent dir (if required)
-        try:
-            response = requests.get(f'https://api.github.com/repos/{repo}/releases/latest').json()  # github api
-            assets = [x['name'] for x in response['assets']]  # release assets, i.e. ['yolov5s.pt', 'yolov5m.pt', ...]
+    msg = weights + ' missing, try downloading from https://github.com/ultralytics/yolov5/releases/'
+    response = requests.get('https://api.github.com/repos/ultralytics/yolov5/releases/latest').json()  # github api
+    assets = [x['name'] for x in response['assets']]  # release assets, i.e. ['yolov5s.pt', 'yolov5m.pt', ...]
+    redundant = False  # second download option
+
+    if file in assets and not os.path.isfile(weights):
+        try:  # GitHub
             tag = response['tag_name']  # i.e. 'v1.0'
-        except:  # fallback plan
-            assets = ['yolov5s.pt', 'yolov5m.pt', 'yolov5l.pt', 'yolov5x.pt',
-                      'yolov5s6.pt', 'yolov5m6.pt', 'yolov5l6.pt', 'yolov5x6.pt']
-            try:
-                tag = subprocess.check_output('git tag', shell=True, stderr=subprocess.STDOUT).decode().split()[-1]
-            except:
-                tag = 'v5.0'  # current release
+            url = f'https://github.com/ultralytics/yolov5/releases/download/{tag}/{file}'
+            print('Downloading %s to %s...' % (url, weights))
+            torch.hub.download_url_to_file(url, weights)
+            assert os.path.exists(weights) and os.path.getsize(weights) > 1E6  # check
+        except Exception as e:  # GCP
+            print('Download error: %s' % e)
+            assert redundant, 'No secondary mirror'
+            url = 'https://storage.googleapis.com/ultralytics/yolov5/ckpt/' + file
+            print('Downloading %s to %s...' % (url, weights))
+            r = os.system('curl -L %s -o %s' % (url, weights))  # torch.hub.download_url_to_file(url, weights)
+        finally:
+            if not (os.path.exists(weights) and os.path.getsize(weights) > 1E6):  # check
+                os.remove(weights) if os.path.exists(weights) else None  # remove partial downloads
+                print('ERROR: Download failure: %s' % msg)
+            print('')
+            return
 
-        if name in assets:
-            safe_download(file,
-                          url=f'https://github.com/{repo}/releases/download/{tag}/{name}',
-                          # url2=f'https://storage.googleapis.com/{repo}/ckpt/{name}',  # backup url (optional)
-                          min_bytes=1E5,
-                          error_msg=f'{file} missing, try downloading from https://github.com/{repo}/releases/')
-
-    return str(file)
 
 def gdrive_download(id='16TiPfZj7htmTyhntwcZyEEAejOUxuT6m', name='tmp.zip'):
     # Downloads a file from Google Drive. from yolov5.utils.google_utils import *; gdrive_download()

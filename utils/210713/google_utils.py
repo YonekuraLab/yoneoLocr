@@ -4,6 +4,7 @@ import os
 import platform
 import subprocess
 import time
+import urllib
 from pathlib import Path
 
 import requests
@@ -12,10 +13,29 @@ import torch
 
 def gsutil_getsize(url=''):
     # gs://bucket/file size https://cloud.google.com/storage/docs/gsutil/commands/du
-    s = subprocess.check_output('gsutil du %s' % url, shell=True).decode('utf-8')
+    s = subprocess.check_output(f'gsutil du {url}', shell=True).decode('utf-8')
     return eval(s.split(' ')[0]) if len(s) else 0  # bytes
 
-#210713 replaced to new one suggested by F. Makino. Old one needed the internet connection
+
+def safe_download(file, url, url2=None, min_bytes=1E0, error_msg=''):
+    # Attempts to download file from url or url2, checks and removes incomplete downloads < min_bytes
+    file = Path(file)
+    assert_msg = f"Downloaded file '{file}' does not exist or size is < min_bytes={min_bytes}"
+    try:  # url1
+        print(f'Downloading {url} to {file}...')
+        torch.hub.download_url_to_file(url, str(file))
+        assert file.exists() and file.stat().st_size > min_bytes, assert_msg  # check
+    except Exception as e:  # url2
+        file.unlink(missing_ok=True)  # remove partial downloads
+        print(f'ERROR: {e}\nRe-attempting {url2 or url} to {file}...')
+        os.system(f"curl -L '{url2 or url}' -o '{file}' --retry 3 -C -")  # curl download, retry and resume on fail
+    finally:
+        if not file.exists() or file.stat().st_size < min_bytes:  # check
+            file.unlink(missing_ok=True)  # remove partial downloads
+            print(f"ERROR: {assert_msg}\n{error_msg}")
+        print('')
+
+
 def attempt_download(file, repo='ultralytics/yolov5'):  # from utils.google_utils import *; attempt_download()
     # Attempt file download if does not exist
     file = Path(str(file).strip().replace("'", ''))
@@ -52,36 +72,39 @@ def attempt_download(file, repo='ultralytics/yolov5'):  # from utils.google_util
 
     return str(file)
 
-def gdrive_download(id='16TiPfZj7htmTyhntwcZyEEAejOUxuT6m', name='tmp.zip'):
+
+def gdrive_download(id='16TiPfZj7htmTyhntwcZyEEAejOUxuT6m', file='tmp.zip'):
     # Downloads a file from Google Drive. from yolov5.utils.google_utils import *; gdrive_download()
     t = time.time()
-    print('Downloading https://drive.google.com/uc?export=download&id=%s as %s... ' % (id, name), end='')
-    os.remove(name) if os.path.exists(name) else None  # remove existing
-    os.remove('cookie') if os.path.exists('cookie') else None
+    file = Path(file)
+    cookie = Path('cookie')  # gdrive cookie
+    print(f'Downloading https://drive.google.com/uc?export=download&id={id} as {file}... ', end='')
+    file.unlink(missing_ok=True)  # remove existing file
+    cookie.unlink(missing_ok=True)  # remove existing cookie
 
     # Attempt file download
     out = "NUL" if platform.system() == "Windows" else "/dev/null"
-    os.system('curl -c ./cookie -s -L "drive.google.com/uc?export=download&id=%s" > %s ' % (id, out))
+    os.system(f'curl -c ./cookie -s -L "drive.google.com/uc?export=download&id={id}" > {out}')
     if os.path.exists('cookie'):  # large file
-        s = 'curl -Lb ./cookie "drive.google.com/uc?export=download&confirm=%s&id=%s" -o %s' % (get_token(), id, name)
+        s = f'curl -Lb ./cookie "drive.google.com/uc?export=download&confirm={get_token()}&id={id}" -o {file}'
     else:  # small file
-        s = 'curl -s -L -o %s "drive.google.com/uc?export=download&id=%s"' % (name, id)
+        s = f'curl -s -L -o {file} "drive.google.com/uc?export=download&id={id}"'
     r = os.system(s)  # execute, capture return
-    os.remove('cookie') if os.path.exists('cookie') else None
+    cookie.unlink(missing_ok=True)  # remove existing cookie
 
     # Error check
     if r != 0:
-        os.remove(name) if os.path.exists(name) else None  # remove partial
+        file.unlink(missing_ok=True)  # remove partial
         print('Download error ')  # raise Exception('Download error')
         return r
 
     # Unzip if archive
-    if name.endswith('.zip'):
+    if file.suffix == '.zip':
         print('unzipping... ', end='')
-        os.system('unzip -q %s' % name)  # unzip
-        os.remove(name)  # remove zip to free space
+        os.system(f'unzip -q {file}')  # unzip
+        file.unlink()  # remove zip to free space
 
-    print('Done (%.1fs)' % (time.time() - t))
+    print(f'Done ({time.time() - t:.1f}s)')
     return r
 
 
