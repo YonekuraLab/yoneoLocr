@@ -1,6 +1,6 @@
 ![Top](yoneo.ico)
 # yoneoLocr
-### Real-time object locator / evaluator for cryo-EM data collection
+### Real-time object locator for cryo-EM data collection
 #### --- You only navigate EM once ---
 210202 Koji Yonekura, RIKEN SPring-8 / Tohoku University<BR>
 &nbsp;&nbsp;&nbsp;Derived from detect.py in yolov5<BR>
@@ -17,12 +17,12 @@
 6. Install ImageMagick.
 7. Launch Anaconda Prompt. Make and activate an Anaconda environment as,
 ```
-   > conda create -n yolov5 python=3.8
-   > conda activate yolov5
+   > conda create -n yolov5-4.0 python=3.8
+   > conda activate yolov5-4.0
 ```
 8. Go to the yoneoLocr directory and install python libraries as,
 ```
-   > conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch
+   > conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch 
    > pip install -r requirements.txt
 ```
 9. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
@@ -44,10 +44,6 @@
 ```
    --ice yes / no
 ```
-* Equalize image histogram. Only effective in hole mode. Default: yes.
-```
-   --equalize yes / no
-```
 * Other options in the original script detect.py in YOLOv5 are also available.
 ### Notes
-* The github site includes a weight for only "hole" due to file size limit. Other weights are downloadable from our web site.
+* The github site includes weights for only "hole" and "lowmagxtal" due to file size limit. Other weights are downloadable from our web site.
