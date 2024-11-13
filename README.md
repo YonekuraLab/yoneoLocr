@@ -15,14 +15,14 @@
 4.	Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 2012R2. Newer versions of CUDA and cuDNN are available for Windows 10.
 5. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
 6. Install ImageMagick.
-7. Launch Miniforge Prompt. Make and activate an Miniforge environment as,
+7. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
 ```
-   > conda create -n yolov5-4.0 python=3.8
+   > conda create -n yolov5-4.0 python=3.8 -c conda-forge
    > conda activate yolov5-4.0
 ```
 8. Go to the yoneoLocr directory and install python libraries as,
 ```
-   > conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch 
+   > conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch -c conda-forge
    > pip install -r requirements.txt
 ```
 9. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
