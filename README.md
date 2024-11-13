@@ -27,6 +27,12 @@
 ```
 9. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
 10. Launch yoneoLocrWatch.py from the shortcuts.
+11. If the windows disappear immediately, try the following commands.
+```
+   > conda activate yolov5-4.0
+   > pip uninstall Pillow
+   > pip install Pillow
+```
 ### Command line options
 * Select running mode.
  ```
