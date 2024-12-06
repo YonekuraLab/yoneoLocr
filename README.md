@@ -14,7 +14,7 @@
 2.	Extract the zip file and put the whole directory as yoneoLocr in C:\ProgramData\ of a camera control Windows PC.
 3.	Set the property of batch files to “full control” from the Security tab if needed.
 4.	Install ImageMagick.
-# CUDA 10
+#### CUDA 10
 5. Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 2012R2.
 6. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
 7. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
@@ -30,7 +30,7 @@
 ```
    > pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html
 ```
-# CUDA 11
+#### CUDA 11
 5. Install CUDA Toolkit 11.8 for Windows 10 and RTX-3090 or newer.
 6. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
 ```
@@ -42,13 +42,13 @@
    > conda install pytorch==2.5.0 torchvision==0.20.0 pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
 
-12. Go to the yoneoLocr directory and install other python modules as,
+9. Go to the yoneoLocr directory and install other python modules as,
 ```
    > pip install -r requirements.txt
 ```
-13. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
-14. Launch yoneoLocrWatch.py from the shortcuts.
-15. If the windows disappear immediately, try the following commands.
+10. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
+11. Launch yoneoLocrWatch.py from the shortcuts.
+12. If the windows disappear immediately, try the following commands.
 ```
    > conda activate yolov5-4.0
    > pip uninstall Pillow
