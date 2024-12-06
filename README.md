@@ -15,14 +15,14 @@
 4.	Install ImageMagick.
 
 ### CUDA 10
-5.1. Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 2012R2. 
-5.2. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
-5.3. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
+5. Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 2012R2.
+6. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
+7. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
 ```
    > conda create -n yolov5-4.0 python=3.8 -c conda-forge
    > conda activate yolov5-4.0
 ```
-5.4. Install PyTorch as,
+8. Install PyTorch as,
 ```
    > conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch -c conda-forge
 ```
@@ -32,24 +32,24 @@
 ```
 
 ### CUDA 11
-6.1. Install CUDA Toolkit 11.8 for Windows 10 and RTX-3090 or newer.
-6.2. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
+9. Install CUDA Toolkit 11.8 for Windows 10 and RTX-3090 or newer.
+10. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
 ```
    > conda create -n yolov5-4.0 python=3.11 -c conda-forge
    > conda activate yolov5-4.0
 ```
-6.3. Install PyTorch as,
+11. Install PyTorch as,
 ```
    > conda install pytorch==2.5.0 torchvision==0.20.0 pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
 
-7. Go to the yoneoLocr directory and install other python modules as,
+12. Go to the yoneoLocr directory and install other python modules as,
 ```
    > pip install -r requirements.txt
 ```
-8. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
-10. Launch yoneoLocrWatch.py from the shortcuts.
-11. If the windows disappear immediately, try the following commands.
+13. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
+14. Launch yoneoLocrWatch.py from the shortcuts.
+15. If the windows disappear immediately, try the following commands.
 ```
    > conda activate yolov5-4.0
    > pip uninstall Pillow
