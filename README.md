@@ -12,15 +12,17 @@
 1. Download yoneoLocr-main.zip from https://github.com/YonekuraLab/yoneoLocr.
 2.	Extract the zip file and put the whole directory as yoneoLocr in C:\ProgramData\ of a camera control Windows PC.
 3.	Set the property of batch files to “full control” from the Security tab if needed.
-4.	Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 2012R2. Newer versions of CUDA and cuDNN are available for Windows 10.
-5. Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
-6. Install ImageMagick.
-7. Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
+4.	Install ImageMagick.
+
+### CUDA 10
+5.1 Install CUDA Toolkit 10.1 and cuDNN 10.1 for a K3 control PC if the operating system of the PC is Windows Server 2012R2. 
+5.2 Install Microsoft Build Tools for Visual Studio (vs_buildtools) if needed.
+5.3 Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
 ```
    > conda create -n yolov5-4.0 python=3.8 -c conda-forge
    > conda activate yolov5-4.0
 ```
-8. Go to the yoneoLocr directory and install python libraries as,
+5.4 Install PyTorch as,
 ```
    > conda install pytorch==1.7.1 torchvision==0.8.2 cudatoolkit=10.1 -c pytorch -c conda-forge
 ```
@@ -28,11 +30,24 @@
 ```
    > pip install torch==1.8.1+cu101 torchvision==0.9.1+cu101 -f https://download.pytorch.org/whl/torch_stable.html
 ```
-   then,
+
+### CUDA 11
+6.1 Install CUDA Toolkit 11.8 for Windows 10 and RTX-3090 or newer.
+6.2 Launch Miniconda or Miniforge Prompt. Create and activate an environment as,
+```
+   > conda create -n yolov5-4.0 python=3.11 -c conda-forge
+   > conda activate yolov5-4.0
+```
+6.3 Install PyTorch as,
+```
+   > conda install pytorch==2.5.0 torchvision==0.20.0 pytorch-cuda=11.8 -c pytorch -c nvidia
+```
+
+7. Go to the yoneoLocr directory and install other python modules as,
 ```
    > pip install -r requirements.txt
 ```
-9. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
+8. Put shortcuts, yoneoHole, yoneoXtal, yoneoDiff, and yoneoLowmagXtal on the desktop.
 10. Launch yoneoLocrWatch.py from the shortcuts.
 11. If the windows disappear immediately, try the following commands.
 ```
