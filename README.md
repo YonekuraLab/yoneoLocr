@@ -41,6 +41,7 @@
 ```
    > conda install pytorch==2.5.0 torchvision==0.20.0 pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
+8. copy models/experimentalCUDA11.py to models/experimental.py and models/yoloCUDA11.py to models/yolo.py
 
 9. Go to the yoneoLocr directory and install other python modules as,
 ```
