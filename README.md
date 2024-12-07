@@ -6,6 +6,7 @@
 &nbsp;&nbsp;&nbsp;Derived from detect.py in yolov5<BR>
 210403 Version 1.0<BR>
 241207 Instructions for CUDA 11
+&nbsp;&nbsp;Note: Windows 10 N and 11 N require Media Feature Pack (Media Player) for OpenCV (import cv2) to work properly.
 ### Reference
 * https://biorxiv.org/cgi/content/short/2021.04.07.438905v1
 * https://www.nature.com/articles/s42003-021-02577-1
