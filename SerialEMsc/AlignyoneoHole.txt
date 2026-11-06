@@ -1,6 +1,7 @@
 ScriptName AlignyoneoHole
 # 200714 K. Yonekura, Image shift causes beam off. Should not use.
 # 210202 K. Yonekura, Use yolov5 to find carbon holes
+# 260319 K. Yonekura, Display AI detection
 
 echo --------------------------- AlignyoneoHole ------------------------------
 #max_image_shift = 500
@@ -8,6 +9,8 @@ max_image_shift = 300
 
 progdir = C:\ProgramData\yoneoLocr
 watchinfile = InputImage.txt 
+AIdisplay = 1
+delAIimage = 1
 
 #ReportNavItem
 #LowLimitCount = 25
@@ -43,12 +46,21 @@ Loop 5 i
               # echo $GxGyProb[1] $GxGyProb[2]  $GxGyProb[3]
               CloseTextFile 1
 	      RemoveFile $progdir\View_$navLabel_$i.log
+              if $AIdisplay == 1
+               Try 1
+                  ReadOtherFile 0 A $progdir\View_$navLabel_$icout.jpg
+               Catch
+	echo Reading error from $progdir\View_$navLabel_$icout.jpg
+                EndTry
+              endif
               break
         endif
-        Delay 1s
+        Delay 1 s
     EndLoop
     RemoveFile $progdir\View_$navLabel_$i.jpg
-
+    if $delAIimage ==  1
+       RemoveFile $progdir\View_$navLabel_$icout.jpg
+    endif
     prob = $GxGyProb[3]
     if $prob == 0
         echo  Can't detect any holes
